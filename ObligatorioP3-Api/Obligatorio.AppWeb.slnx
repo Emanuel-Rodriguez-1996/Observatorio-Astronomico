@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="Obligatorio.Infraestructura/Obligatorio.Infraestructura.csproj" />
+  <Project Path="Obligatorio.LogicaAplicacion/Obligatorio.LogicaAplicacion.csproj" />
+  <Project Path="Obligatorio.LogicaNegocio/Obligatorio.LogicaNegocio.csproj" />
+  <Project Path="Obligatorio.WebApi/Obligatorio.WebApi.csproj" Id="0f3598b3-0859-4be6-88f6-a92a71f68e90" />
+</Solution>

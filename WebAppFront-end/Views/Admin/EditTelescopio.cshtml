@@ -1,0 +1,78 @@
+﻿@model WebAppFront_end.Models.VM.Equipo.VMTelescopio
+
+<div class="container mt-4">
+    <h1>Editar Telescopio</h1>
+    <h4 class="text-muted">Modifique los campos necesarios para actualizar el equipo</h4>
+    <hr />
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <strong>¡Error!</strong> @ViewBag.Error
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <div class="row">
+        <div class="col-md-6 col-lg-4">
+            <form asp-action="EditTelescopio" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                <input type="hidden" asp-for="Id" />
+
+                <div class="form-group mb-3">
+                    <label asp-for="Marca" class="form-label fw-bold"></label>
+                    <input asp-for="Marca" class="form-control" placeholder="Ej. Celestron" />
+                    <span asp-validation-for="Marca" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Modelo" class="form-label fw-bold"></label>
+                    <input asp-for="Modelo" class="form-control" placeholder="Ej. NexStar 8SE" />
+                    <span asp-validation-for="Modelo" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Cantidad" class="form-label fw-bold"></label>
+                    <input asp-for="Cantidad" type="number" class="form-control" min="0" />
+                    <span asp-validation-for="Cantidad" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Apertura" class="form-label fw-bold"></label>
+                    <input asp-for="Apertura" type="number" step="any" class="form-control" />
+                    <span asp-validation-for="Apertura" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="RelacionFocal" class="form-label fw-bold"></label>
+                    <input asp-for="RelacionFocal" type="number" step="any" class="form-control" />
+                    <span asp-validation-for="RelacionFocal" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="DistanciaFocal" class="form-label fw-bold"></label>
+                    <input asp-for="DistanciaFocal" type="number" step="any" class="form-control" />
+                    <span asp-validation-for="DistanciaFocal" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="Peso" class="form-label fw-bold"></label>
+                    <input asp-for="Peso" type="number" step="any" class="form-control" />
+                    <span asp-validation-for="Peso" class="text-danger"></span>
+                </div>
+
+                <div class="form-group d-flex gap-2">
+                    <input type="submit" value="Guardar Cambios" class="btn btn-primary" />
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

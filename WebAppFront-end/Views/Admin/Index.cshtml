@@ -1,0 +1,555 @@
+﻿@model WebAppFront_end.Models.VM.VMIndex
+
+@{
+    var rol = Context.Session.GetString("rol");
+    var nombre = Context.Session.GetString("Nombre");
+    var id = Context.Session.GetInt32("userId");
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+
+<div class="container mt-4">
+
+    <h1 class="text-center">Panel de Control @rol</h1>
+
+    <p><strong>Nombre de Usuario:</strong> @nombre</p>
+    <p><strong>Rol:</strong> @rol</p>
+
+    <p>
+        @if (rol == "Administrador")
+        {
+            <div class="d-flex justify-content-end align-items-center mb-3">
+                <div class="dropdown">
+                    <button class="btn btn-dark dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        ⚙️ Crear
+                    </button>
+
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="AltaUsu">Socio</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="AltaTelescopio">Telescopio</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="AltaCamara">Cámara</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="AltaOcular">Ocular</a></li>
+                        <li><a class="dropdown-item" asp-controller="Admin" asp-action="AltaMontura">Montura</a></li>
+                    </ul>
+                </div>
+                <a class="btn btn-dark ms-3" asp-controller="Admin" asp-action="VerPrestamos">Ver Prestamos</a>
+            </div>
+        }
+        @if (rol == "Coordinador")
+        {
+            <div class="d-flex justify-content-end mb-3">
+                <a asp-controller="Coord" asp-action="AltaPrestamo" class="btn btn-outline-danger">
+                    Crear Préstamo
+                </a>
+            </div>
+        }
+    </p>
+    <hr />
+    <h3 class="mb-0">Lista de Usuarios</h3>
+
+    <div class="accordion mb-3" id="accordionUsuarios">
+        <div class="accordion-item">
+            <h2 class="accordion-header" id="headingUsuarios">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#collapseUsuarios"
+                        aria-expanded="false"
+                        aria-controls="collapseUsuarios">
+
+                    <i class="bi bi-people-fill me-2"></i>
+                    Usuarios Totales (@Model.Usuarios?.Count())
+                </button>
+            </h2>
+
+            <div id="collapseUsuarios"
+                 class="accordion-collapse collapse"
+                 aria-labelledby="headingUsuarios"
+                 data-bs-parent="#accordionUsuarios">
+
+                <div class="accordion-body">
+
+                    @if (Model.Usuarios != null && Model.Usuarios.Any())
+                    {
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nombre</th>
+                                        <th>Usuario</th>
+                                        <th>Email</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    @foreach (var u in Model.Usuarios)
+                                    {
+                                        <tr>
+                                            <td>
+                                                <span class="badge bg-secondary">
+                                                    @u.Id
+                                                </span>
+                                            </td>
+                                            <td>@u.Nombre</td>
+                                            <td>@u.UserName</td>
+                                            <td>@u.Email</td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info mb-0">
+                            No hay usuarios registrados.
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <hr />
+
+        <hr />
+
+<h3>Lista de Equipos</h3>
+
+@if ((Model.Telescopios?.Any() ?? false) ||
+     (Model.Camaras?.Any() ?? false) ||
+     (Model.Oculares?.Any() ?? false) ||
+     (Model.Monturas?.Any() ?? false))
+{
+    <div class="accordion" id="categoriasEquipos">
+
+        <!-- TELESCOPIOS -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#telescopiosCollapse">
+                    📡 Telescopios (@Model.Telescopios.Count())
+                </button>
+            </h2>
+
+            <div id="telescopiosCollapse"
+                 class="accordion-collapse collapse show"
+                 data-bs-parent="#categoriasEquipos">
+
+                <div class="accordion-body">
+
+                    <div class="accordion" id="telescopiosAccordion">
+
+                        @foreach (var t in Model.Telescopios)
+                        {
+                            <div class="accordion-item">
+
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#tel-@t.Id">
+
+                                        @t.Marca - @t.Modelo
+                                    </button>
+                                </h2>
+
+                                <div id="tel-@t.Id"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#telescopiosAccordion">
+
+                                    <div class="accordion-body">
+
+                                        <p><strong>ID:</strong> @t.Id</p>
+                                        <p><strong>Cantidad:</strong> @t.Cantidad</p>
+
+                                        <hr />
+
+                                        <p><strong>Apertura:</strong> @t.Apertura</p>
+                                        <p><strong>Distancia Focal:</strong> @t.DistanciaFocal</p>
+                                        <p><strong>Relación Focal:</strong> @t.RelacionFocal</p>
+                                        <p><strong>Peso:</strong> @t.Peso</p>
+
+                                        @if (rol == "Administrador" || rol == "Coordinador")
+                                        {
+                                            <a asp-action="SocioXTelescopio"
+                                               asp-route-id="@t.Id"
+                                               class="btn btn-success btn-sm">
+                                                Ver Socios
+                                            </a>
+                                        }
+
+                                        @if (rol == "Administrador")
+                                        {
+                                            <a asp-action="EditTelescopio"
+                                               asp-route-id="@t.Id"
+                                               class="btn btn-warning btn-sm">
+                                                Editar
+                                            </a>
+
+                                            <form asp-action="Delete"
+                                                  asp-route-id="@t.Id"
+                                                  method="post"
+                                                  style="display:inline;"
+                                                  onsubmit="return confirm('¿Eliminar equipo?');">
+
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-sm">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CAMARAS -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#camarasCollapse">
+                    📷 Cámaras (@Model.Camaras.Count())
+                </button>
+            </h2>
+
+            <div id="camarasCollapse"
+                 class="accordion-collapse collapse"
+                 data-bs-parent="#categoriasEquipos">
+
+                <div class="accordion-body">
+
+                    <div class="accordion" id="camarasAccordion">
+
+                        @foreach (var c in Model.Camaras)
+                        {
+                            <div class="accordion-item">
+
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#cam-@c.Id">
+
+                                        @c.Marca - @c.Modelo
+                                    </button>
+                                </h2>
+
+                                <div id="cam-@c.Id"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#camarasAccordion">
+
+                                    <div class="accordion-body">
+
+                                        <p><strong>ID:</strong> @c.Id</p>
+                                        <p><strong>Cantidad:</strong> @c.Cantidad</p>
+
+                                        <hr />
+
+                                        <p><strong>Pixel:</strong> @c.Pixel</p>
+                                        <p><strong>Resolución:</strong> @c.Resolucion</p>
+                                        <p><strong>Sensor:</strong> @c.TipoSensor</p>
+
+                                        @if (rol == "Administrador")
+                                        {
+                                            <a asp-action="EditCamara"
+                                               asp-route-id="@c.Id"
+                                               class="btn btn-warning btn-sm">
+                                                Editar
+                                            </a>
+
+                                            <form asp-action="Delete"
+                                                  asp-route-id="@c.Id"
+                                                  method="post"
+                                                  style="display:inline;"
+                                                  onsubmit="return confirm('¿Eliminar equipo?');">
+
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-sm">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- OCULARES -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#ocularesCollapse">
+                    🔭 Oculares (@Model.Oculares.Count())
+                </button>
+            </h2>
+
+            <div id="ocularesCollapse"
+                 class="accordion-collapse collapse"
+                 data-bs-parent="#categoriasEquipos">
+
+                <div class="accordion-body">
+
+                    <div class="accordion" id="ocularesAccordion">
+
+                        @foreach (var o in Model.Oculares)
+                        {
+                            <div class="accordion-item">
+
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#ocu-@o.id">
+
+                                        @o.Marca - @o.Modelo
+                                    </button>
+                                </h2>
+
+                                <div id="ocu-@o.id"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#ocularesAccordion">
+
+                                    <div class="accordion-body">
+
+                                        <p><strong>ID:</strong> @o.id</p>
+                                        <p><strong>Cantidad:</strong> @o.Cantidad</p>
+
+                                        <hr />
+
+                                        <p><strong>Ángulo:</strong> @o.Angulo</p>
+                                        <p><strong>Diámetro:</strong> @o.Diametro</p>
+
+                                        @if (rol == "Administrador")
+                                        {
+                                            <a asp-action="EditOcular"
+                                               asp-route-id="@o.id"
+                                               class="btn btn-warning btn-sm">
+                                                Editar
+                                            </a>
+
+                                            <form asp-action="Delete"
+                                                  asp-route-id="@o.id"
+                                                  method="post"
+                                                  style="display:inline;"
+                                                  onsubmit="return confirm('¿Eliminar equipo?');">
+
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-sm">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- MONTURAS -->
+        <div class="accordion-item">
+            <h2 class="accordion-header">
+                <button class="accordion-button collapsed"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#monturasCollapse">
+                    ⚙️ Monturas (@Model.Monturas.Count())
+                </button>
+            </h2>
+
+            <div id="monturasCollapse"
+                 class="accordion-collapse collapse"
+                 data-bs-parent="#categoriasEquipos">
+
+                <div class="accordion-body">
+
+                    <div class="accordion" id="monturasAccordion">
+
+                        @foreach (var m in Model.Monturas)
+                        {
+                            <div class="accordion-item">
+
+                                <h2 class="accordion-header">
+                                    <button class="accordion-button collapsed"
+                                            type="button"
+                                            data-bs-toggle="collapse"
+                                            data-bs-target="#mon-@m.Id">
+
+                                        @m.Marca - @m.Modelo
+                                    </button>
+                                </h2>
+
+                                <div id="mon-@m.Id"
+                                     class="accordion-collapse collapse"
+                                     data-bs-parent="#monturasAccordion">
+
+                                    <div class="accordion-body">
+
+                                        <p><strong>ID:</strong> @m.Id</p>
+                                        <p><strong>Cantidad:</strong> @m.Cantidad</p>
+
+                                        <hr />
+
+                                        <p><strong>Tipo:</strong> @m.TipoMontura</p>
+                                        <p><strong>Carga Soportada:</strong> @m.CargaSoportada</p>
+                                        <p><strong>Computarizada:</strong> @(m.EsComputarizado ? "Sí" : "No")</p>
+
+                                        @if (rol == "Administrador")
+                                        {
+                                            <a asp-action="EditMontura"
+                                               asp-route-id="@m.Id"
+                                               class="btn btn-warning btn-sm">
+                                                Editar
+                                            </a>
+
+                                            <form asp-action="Delete"
+                                                  asp-route-id="@m.Id"
+                                                  method="post"
+                                                  style="display:inline;"
+                                                  onsubmit="return confirm('¿Eliminar equipo?');">
+
+                                                <button type="submit"
+                                                        class="btn btn-danger btn-sm">
+                                                    Eliminar
+                                                </button>
+                                            </form>
+                                        }
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+}
+else
+{
+    <p>No hay equipos registrados.</p>
+}
+
+        <hr />
+    @if (rol == "Coordinador") { 
+    <h3>Prestamos</h3>
+
+    @if (Model.Prestamos != null && Model.Prestamos.Count() > 0)
+    {
+        <table class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Socio</th>
+                    <th>Telescopio</th>
+                    <th>Montura</th>
+                    <th>Camara</th>
+                    <th>Ocular</th>
+                    <th>FchInicio</th>
+                    <th>FchFin</th>
+                    <th>Estado</th>
+                
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var p in Model.Prestamos)
+                {
+                    {
+                        <tr>
+                            <td>@p.Id</td>
+                            <td>@p.SocioNombre</td>
+                            <td>@p.TelescopioMarca</td>
+                            <td>@p.MonturaMarca</td>
+                            <td>@p.CamaraMarca</td>
+                            <td>@p.OcularMarca</td>
+                            <td>@p.FchInicio.ToShortDateString()</td>
+                            <td>@p.FchFin.ToShortDateString()</td>
+                            <td>@if (p.Estado == "En_Prestamo")
+                            {
+                                <span class="badge bg-success">
+                                    @p.Estado
+                                </span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger">
+                                    @p.Estado
+                                </span>
+                            }</td>
+                            <td>
+                                <a asp-controller="Coord"
+                                asp-action="DevolverPrestamo"
+                                asp-route-id="@p.Id"
+                                class="btn btn-warning btn-sm">
+                                 Devolver
+                                 </a>
+                            </td>
+                        </tr>
+                    }
+                }
+
+            </tbody>
+        </table>
+    }
+    else
+    {
+        <p>No hay Prestamos registrados.</p>
+    }
+    }
+    <hr />
+</div>

@@ -1,0 +1,97 @@
+﻿@model IEnumerable<WebAppFront_end.Models.Dtos.Prestamo.PrestamoListadoDTO>
+
+@{
+    var coordinadores = ViewBag.Coordinadores;
+    int? coordSeleccionado = ViewBag.CoordSeleccionado;
+}
+
+<h1>Ver Préstamos</h1>
+
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+
+<form method="get">
+    <div class="mb-3">
+        <label class="form-label">Coordinador</label>
+
+        <select name="coordId"
+                class="form-control"
+                onchange="this.form.submit()">
+
+            <option value="">Todos los coordinadores</option>
+
+            @foreach (var c in coordinadores)
+            {
+                if (coordSeleccionado == c.Id)
+                {
+                    <option value="@c.Id" selected>
+                        @c.Nombre
+                    </option>
+                }
+                else
+                {
+                    <option value="@c.Id">
+                        @c.Nombre
+                    </option>
+                }
+            }
+        </select>
+    </div>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Nombre Socio</th>
+            <th>Telescopio</th>
+            <th>Montura</th>
+            <th>Cámara</th>
+            <th>Ocular</th>
+            <th>Inicio</th>
+            <th>Fin</th>
+            <th>Estado</th>
+            <th>Acción</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        @if (Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.SocioNombre</td>
+                    <td>@item.TelescopioMarca</td>
+                    <td>@item.MonturaMarca</td>
+                    <td>@item.CamaraMarca</td>
+                    <td>@item.OcularMarca</td>
+                    <td>@item.FchInicio.ToShortDateString()</td>
+                    <td>@item.FchFin.ToShortDateString()</td>
+                    <td>@item.Estado</td>
+                    <td>
+                        <a asp-action="VerAuditoria" asp-route-prestamoId="@item.Id" 
+                        class="btn btn-success btn-sm"> Ver Auditoria 
+                    </a>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="11" class="text-center">
+                    No hay préstamos para el coordinador seleccionado.
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+    <a asp-action="Index" class="btn btn-secondary">
+        <i class="bi bi-arrow-left"></i> Volver
+    </a>

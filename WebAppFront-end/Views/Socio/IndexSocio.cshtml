@@ -1,0 +1,220 @@
+﻿@model WebAppFront_end.Models.VM.VMIndex
+
+@{
+    var rol = Context.Session.GetString("rol");
+    var nombre = Context.Session.GetString("Nombre");
+    var id = Context.Session.GetInt32("userId");
+}
+
+<div class="container mt-5">
+
+    <div class="text-center mb-4">
+        <h1 class="fw-bold text-primary">
+            Panel de Control @rol
+        </h1>
+
+        <p class="mb-1">
+            <strong>Usuario:</strong> @nombre
+        </p>
+
+        <p>
+            <strong>Tipo:</strong> @rol
+        </p>
+    </div>
+
+    <div class="card shadow-sm border-0 mb-4">
+
+        <div>
+            <h4 class="mb-0">Filtrar Préstamos</h4>
+        </div>
+
+        <div class="card-body">
+
+            <form asp-action="FiltrarPrestamos" method="post">
+
+                <div class="row g-3 align-items-end">
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">
+                            Mes
+                        </label>
+
+                        <select name="mes" class="form-select">
+                            <option value="1">Enero</option>
+                            <option value="2">Febrero</option>
+                            <option value="3">Marzo</option>
+                            <option value="4">Abril</option>
+                            <option value="5">Mayo</option>
+                            <option value="6">Junio</option>
+                            <option value="7">Julio</option>
+                            <option value="8">Agosto</option>
+                            <option value="9">Septiembre</option>
+                            <option value="10">Octubre</option>
+                            <option value="11">Noviembre</option>
+                            <option value="12">Diciembre</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label fw-semibold">
+                            Año
+                        </label>
+
+                        <input type="number"
+                               name="anio"
+                               class="form-control"
+                               value="@DateTime.Now.Year" />
+                    </div>
+
+                    <div class="col-md-4">
+                        <button type="submit"
+                                class="btn btn-primary">
+                            Filtrar Préstamos
+                        </button>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow-sm border-0">
+
+        <div class="card-header bg-dark text-white">
+            <h4 class="mb-0">Listado de Préstamos</h4>
+        </div>
+
+        <div class="card-body">
+
+            @if (Model.Prestamos != null && Model.Prestamos.Count() > 0)
+            {
+                <div class="table-responsive">
+
+                    <table class="table table-hover table-bordered align-middle">
+
+                        <thead class="table-light">
+
+                            <tr class="text-center">
+                                <th>ID</th>
+                                <th>Socio</th>
+                                <th>Telescopio</th>
+                                <th>Montura</th>
+                                <th>Cámara</th>
+                                <th>Ocular</th>
+                                <th>FchInicio</th>
+                                <th>FchFin</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var p in Model.Prestamos)
+                            {
+                              @if(p.Estado != "Devuelto" && id == p.SocioId){
+                                <tr>
+                                    
+                                    <td class="text-center">@p.Id</td>
+
+                                    <td>@p.SocioNombre</td>
+
+                                    <td>@p.TelescopioMarca</td>
+
+                                    <td>@p.MonturaMarca</td>
+
+                                    <td>@p.CamaraMarca</td>
+
+                                    <td>@p.OcularMarca</td>
+
+                                    <td class="text-center">
+                                        @p.FchInicio.ToShortDateString()
+                                    </td>
+
+                                    <td class="text-center">
+                                        @p.FchFin.ToShortDateString()
+                                    </td>
+
+                                    <td class="text-center">
+
+                                        @if (p.Estado == "En_Prestamo")
+                                        {
+                                            <span class="badge bg-success">
+                                                @p.Estado
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span class="badge bg-danger">
+                                                @p.Estado
+                                            </span>
+                                        }
+
+                                    </td>
+
+                                    <td class="text-center">
+
+                                            <a asp-controller="Socio"
+                                               asp-action="AltaObservacion"
+                                               asp-route-id="@p.Id"
+                                               class="btn btn-primary w-100 fw-semibold">
+                                                Planificar Observación
+                                            </a>
+
+                                    </td>
+
+                                </tr>
+                               }
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning text-center mb-0">
+                    No hay préstamos registrados.
+                </div>
+            }
+        </div>
+        <h1>Ranking de objetos celestes Observados</h1>
+        @if (Model.RankingObjCelestes == null || !Model.RankingObjCelestes.Any())
+        {
+            <div class="alert alert-info">
+                No hay objetos celestes observados.
+            </div>
+        }
+        else
+        {
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Tipo</th>
+                        <th>Cantidad de observaciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var r in Model.RankingObjCelestes)
+                    {
+                        <tr>
+                            <td>@r.Nombre</td>
+                            <td>@r.Tipo</td>
+                            <td>@r.Cantidad</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    </div>
+
+    <hr class="mt-4" />
+
+</div>

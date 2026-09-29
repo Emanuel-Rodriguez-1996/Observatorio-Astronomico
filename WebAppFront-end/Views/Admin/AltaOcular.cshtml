@@ -1,0 +1,56 @@
+﻿@model WebAppFront_end.Models.VM.Equipo.VMOcular
+
+<h1>Agregar Ocular en el Sistema</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AltaOcular">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Marca" class="control-label"></label>
+                <br />
+                <input asp-for="Marca" class="form-control" />
+                <span asp-validation-for="Marca" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Modelo" class="control-label"></label>
+                <br />
+                <input asp-for="Modelo" class="form-control" />
+                <span asp-validation-for="Modelo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <br />
+                <input asp-for="Cantidad" class="form-control" />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Angulo" class="control-label"></label>
+                <br />
+                <input asp-for="Angulo" class="form-control" />
+                <span asp-validation-for="Angulo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Diametro" class="control-label"></label>
+                <br />
+                <input asp-for="Diametro" class="form-control" />
+                <span asp-validation-for="Diametro" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+<br />
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
+

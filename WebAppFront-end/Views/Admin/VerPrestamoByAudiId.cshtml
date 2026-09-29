@@ -1,0 +1,122 @@
+﻿@model WebAppFront_end.Models.Dtos.Prestamo.PrestamoListadoDTO
+
+<div class="container mt-4">
+
+    <div class="d-flex align-items-center mb-4">
+        <a asp-action="VerAuditoria" asp-route-prestamoId="@Model.Id" class="btn btn-secondary me-3">
+            <i class="bi bi-arrow-left"></i> Volver
+        </a>
+        <h2 class="mb-0">Detalle del Préstamo <span class="text-muted fs-4">#@Model.Id</span></h2>
+    </div>
+
+    @if (ViewBag.Error != null)
+    {
+        <div class="alert alert-danger">@ViewBag.Error</div>
+    }
+
+    <div class="row g-4">
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-primary text-white">
+                    <i class="bi bi-person-fill me-2"></i>Información del Socio
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-5 text-muted">ID Socio</dt>
+                        <dd class="col-7">#@Model.SocioId</dd>
+
+                        <dt class="col-5 text-muted">Nombre</dt>
+                        <dd class="col-7">@Model.SocioNombre</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-info text-white">
+                    <i class="bi bi-person-badge-fill me-2"></i>Coordinador
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-5 text-muted">ID Coordinador</dt>
+                        <dd class="col-7">#@Model.CoordId</dd>
+
+                        <dt class="col-5 text-muted">Nombre</dt>
+                        <dd class="col-7">@Model.CoordNombre</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-secondary text-white">
+                    <i class="bi bi-stars me-2"></i>Equipamiento
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-5 text-muted">Telescopio</dt>
+                        <dd class="col-7">@Model.TelescopioMarca</dd>
+
+                        <dt class="col-5 text-muted">Montura</dt>
+                        <dd class="col-7">@Model.MonturaMarca</dd>
+
+                        <dt class="col-5 text-muted">Cámara</dt>
+                        <dd class="col-7">@Model.CamaraMarca</dd>
+
+                        <dt class="col-5 text-muted">Ocular</dt>
+                        <dd class="col-7">@Model.OcularMarca</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card h-100 shadow-sm">
+                <div class="card-header bg-dark text-white">
+                    <i class="bi bi-calendar-range-fill me-2"></i>Período y Estado
+                </div>
+                <div class="card-body">
+                    <dl class="row mb-0">
+                        <dt class="col-5 text-muted">Fecha Inicio</dt>
+                        <dd class="col-7">@Model.FchInicio.ToShortDateString()</dd>
+
+                        <dt class="col-5 text-muted">Fecha Fin</dt>
+                        <dd class="col-7">@Model.FchFin.ToShortDateString()</dd>
+
+                        <dt class="col-5 text-muted">Estado</dt>
+                        <dd class="col-7">
+                            @if (Model.Estado == "Devuelto")
+                            {
+                                <span class="badge bg-success">@Model.Estado</span>
+                            }
+                            else if (Model.Estado == "Activo")
+                            {
+                                <span class="badge bg-warning text-dark">@Model.Estado</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@Model.Estado</span>
+                            }
+                        </dd>
+
+                        <dt class="col-5 text-muted">Puede Devolver</dt>
+                        <dd class="col-7">
+                            @if (Model.PuedeDevolver)
+                            {
+                                <span class="badge bg-success"><i class="bi bi-check-circle"></i> Sí</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-danger"><i class="bi bi-x-circle"></i> No</span>
+                            }
+                        </dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

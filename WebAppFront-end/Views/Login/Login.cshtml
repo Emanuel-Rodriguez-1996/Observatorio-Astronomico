@@ -1,0 +1,36 @@
+﻿@model WebAppFront_end.Models.Dtos.Usuario.LoginUsuarioDTO
+
+<div class="d-flex justify-content-center mt-5">
+    <div class="card shadow p-4" style="width: 350px;">
+
+        <h3 class="text-center mb-4">Iniciar Sesión</h3>
+
+        <form asp-action="Login">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-2"></div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="UserName" class="form-control" placeholder="Usuario" />
+                <label asp-for="UserName">Usuario</label>
+                <span asp-validation-for="UserName" class="text-danger"></span>
+            </div>
+
+            <div class="form-floating mb-3">
+                <input asp-for="Password" type="password" class="form-control" placeholder="Contraseña" />
+                <label asp-for="Password">Contraseña</label>
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="d-grid">
+                <button type="submit" class="btn btn-dark">Ingresar</button>
+            </div>
+        </form>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="alert alert-danger mt-3 text-center">
+                @ViewBag.Error
+            </div>
+        }
+
+    </div>
+</div>

@@ -1,0 +1,59 @@
+﻿@model WebAppFront_end.Models.VM.Equipo.VMCamara
+
+<h1>EditCamara</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditCamara">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Marca" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Marca" class="text-danger"></span>
+                <input asp-for="Marca" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Modelo" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Modelo" class="text-danger"></span>
+                <input asp-for="Modelo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+                <input asp-for="Cantidad" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Pixel" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Pixel" class="text-danger"></span>
+                <input asp-for="Pixel" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Resolucion" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Resolucion" class="text-danger"></span>
+                <input asp-for="Resolucion" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="TipoSensor" class="control-label"></label>
+                <br />
+                <span asp-validation-for="TipoSensor" class="text-danger"></span>
+                <select asp-for="TipoSensor" class="form-control">
+                    <option value="CMOS">CMOS</option>
+                    <option value="CCD">CCD</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Guardar" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
+

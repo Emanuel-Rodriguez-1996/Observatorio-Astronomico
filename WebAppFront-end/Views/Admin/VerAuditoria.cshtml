@@ -1,0 +1,35 @@
+﻿@model IEnumerable<WebAppFront_end.Models.Dtos.Prestamo.AuditoriaPrestamoDTO>
+
+<h2>Auditoría de préstamos</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Coordinador</th>
+            <th>Acción</th>
+            <th>Préstamo</th>
+            <th>Detalles</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var a in Model)
+        {
+            <tr>
+                <td>@a.FechaPrestamo.ToShortDateString()</td>
+                <td>@a.CoordinadorNombre</td>
+                <td>@a.Accion</td>
+                <td>@a.PrestamoId</td>
+                <td>
+                    <a asp-action="VerPrestamoByAudiId" asp-route-id="@a.PrestamoId" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Ver Prestamos
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<a asp-action="Index" class="btn btn-secondary">
+    <i class="bi bi-arrow-left"></i> Volver
+</a>

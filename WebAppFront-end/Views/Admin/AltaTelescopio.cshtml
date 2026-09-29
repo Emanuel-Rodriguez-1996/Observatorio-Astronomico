@@ -1,0 +1,69 @@
+﻿@model WebAppFront_end.Models.VM.Equipo.VMTelescopio
+<h1>Agregar Telescopio en el Sistema</h1>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AltaTelescopio">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Marca" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Marca" class="text-danger"></span>
+                <input asp-for="Marca" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Modelo" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Modelo" class="text-danger"></span>
+                <input asp-for="Modelo" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Cantidad" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Cantidad" class="text-danger"></span>
+                <input asp-for="Cantidad" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Apertura" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Apertura" class="text-danger"></span>
+                <input asp-for="Apertura" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="RelacionFocal" class="control-label"></label>
+                <br />
+                <span asp-validation-for="RelacionFocal" class="text-danger"></span>
+                <input asp-for="RelacionFocal" class="form-control" />
+
+            </div>
+            <div class="form-group">
+                <label asp-for="DistanciaFocal" class="control-label"></label>
+                <br />
+                <span asp-validation-for="DistanciaFocal" class="text-danger"></span>
+                <input asp-for="DistanciaFocal" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Peso" class="control-label"></label>
+                <br />
+                <span asp-validation-for="Peso" class="text-danger"></span>
+                <input asp-for="Peso" class="form-control" />
+            </div>
+            <br />
+            <div class="form-group">
+                <input type="submit" value="Crear" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger">
+        @ViewBag.Error
+    </div>
+}
+<br />
+
+<div>
+    <a asp-action="Index">Volver</a>
+</div>
+
